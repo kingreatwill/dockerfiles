@@ -1,4 +1,5 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim
+
 # Dependencies for libraries
 RUN export DEBIAN_FRONTEND=noninteractive \
     && echo "Asia/Shanghai" > /etc/timezone \
