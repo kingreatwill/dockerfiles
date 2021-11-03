@@ -1,0 +1,215 @@
+version: "3.2"
+services:
+  identity:
+    build:
+      context: ./Dockerfiles
+      dockerfile: identity
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/identity/src/CNBlogs.Identity.Web/bin/Debug/netcoreapp2.0/publish:/app
+    networks:
+      - my-net
+    container_name: identity
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50k"
+        max-file: "10"
+
+  # blog-admin:
+  #   build: ~/Documents/CnblogsProjects/BlogServer/MigrateToCore/src/BlogServerAdmin.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/BlogServer/MigrateToCore/src/BlogServerAdmin.Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   links:
+  #     - "ucenter:api.ucenter.cnblogs.com"
+  #   extra_hosts:
+  #     - "dbserver:172.16.54.128"
+  #     - "ucenter.cnblogs.com:172.16.54.128"
+  #     - "service.ucenter.cnblogs.com:172.16.54.128"
+  #     - "service.msg.cnblogs.com:172.16.54.128"
+  #     - "blog.wcf.cnblogs.com:172.16.54.128"
+  #     - "news.wcf.cnblogs.com:172.16.54.128"
+  #     - "kb.wcf.cnblogs.com:172.16.54.128"
+  #     - "job.cnblogs.com:172.16.54.128"
+  #     - "api.ing.cnblogs.com:172.16.54.128"
+  #     - "redis:172.16.54.128"
+  #     - "markdown.cnblogs.com:172.16.54.128"
+  #     - "api.upload.cnblogs.com:172.16.54.128"
+  #   container_name: blog-admin
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "50k"
+  #       max-file: "10"
+
+  uchome:
+    build: ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/UcHome/core/src/Cnblogs.UcHome.Web/bin/Debug/netcoreapp2.1/publish:/app
+    links:
+      - "ucenter:api.ucenter.cnblogs.com"
+      - "job:api.job.cnblogs.com"
+      - "cache-server: cache.cnblogs.com"
+      - "edu-api:api.edu.cnblogs.com"
+      - "ucenter:ucenter_api"
+    extra_hosts:
+      - "ucenter.cnblogs.com:172.16.54.128"
+      - "service.ucenter.cnblogs.com:172.16.54.128"
+      - "service.msg.cnblogs.com:172.16.54.128"
+      - "blog.wcf.cnblogs.com:172.16.54.128"
+      - "news.wcf.cnblogs.com:172.16.54.128"
+      - "kb.wcf.cnblogs.com:172.16.54.128"
+      - "api.ing.cnblogs.com:172.16.54.128"
+    networks:
+      - my-net
+    container_name: uchome
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50k"
+        max-file: "10"
+
+  ucenter:
+    build: ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI
+    restart: always
+    # mem_limit: 60m
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsUCenter/core/src/Cnblogs.UCenter.WebAPI/bin/Debug/netcoreapp2.1/publish:/app
+    links:
+      - "cache-server: cache.cnblogs.com"
+    container_name: ucenter
+    networks:
+      - my-net
+
+  # academy:
+  #   build: ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/academy/src/Cnblogs.Academy.Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   links:
+  #     - "ucenter:api.ucenter.cnblogs.com"
+  #   container_name: academy
+
+  job:
+    build: ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsJob/src/CNBlogs.Job.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    container_name: job
+    networks:
+      - my-net
+
+  edu-api:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: EduApiDockerfile
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CnblogsEdu/src/Cnblogs.Edu.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    container_name: edu-api
+    networks:
+      - my-net
+
+  msg-api:
+    build: 
+      context: ./Dockerfiles
+      dockerfile: msg
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/CNBlogsMsg/src/CNBlogs.Msg.WebAPI/bin/Debug/netcoreapp2.1/publish:/app
+    links:
+      - "ucenter:api.ucenter.cnblogs.com"
+      - "cache-server: cache.cnblogs.com"
+      - "ucenter:ucenter_api"
+    container_name: msg-api
+    networks:
+      - my-net
+
+  # upload:
+  #   build: ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web
+  #   restart: always
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/CNBlogsUpload/src/CNBlogs.Upload.Web/bin/Debug/netcoreapp2.1/publish:/app
+  #   links:
+  #     - "ucenter:api.ucenter.cnblogs.com"
+  #     - "ucenter:service.cnblogs.com"
+  #     - "cache-server: cache.cnblogs.com"
+  #   container_name: upload
+  #   networks:
+  #     - my-net
+
+  cache-server:
+    build:
+      context: ./Dockerfiles
+      dockerfile: CacheServiceDockerfile
+    restart: always
+    volumes:
+      - ~/Documents/CnblogsProjects/cache-service/src/Cnblogs.Cache.WebApi/bin/Debug/netcoreapp2.0/publish:/app
+    container_name: cache-server
+    networks:
+      - my-net
+
+  # roster:
+  #   build:
+  #     context: ./Dockerfiles
+  #     dockerfile: roster
+  #   restart: always
+  #   links:
+  #     - redis
+  #   volumes:
+  #     - ~/Documents/CnblogsProjects/CnblogsRoster/src/Web/bin/Debug/netcoreapp2.0/publish:/app
+  #   container_name: roster
+
+  nginx-host:
+    build: ./nginx
+    restart: always
+    ports:
+      - "80:80"
+    links:
+      - identity
+      # - blog-admin
+      - uchome
+      - ucenter
+      - job
+    volumes:
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ~/Documents/CnblogsProjects/WebCommon:/www/data
+    container_name: nginx-host
+    networks:
+      - my-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50k"
+        max-file: "10"
+
+  # redis:
+  #   build: ./redis/
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   container_name: mac-redis 
+
+  # dbserver:
+  #   image: microsoft/mssql-server-linux:2017-latest
+  #   restart: always
+  #   environment:
+  #     ACCEPT_EULA: Y
+  #     MSSQL_SA_PASSWORD: Coding-Changes-World
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - type: volume
+  #       source: sqlvolume
+  #       target: /var/opt/mssql
+  #   container_name: mssql
+  
+# volumes:
+#   sqlvolume:
+#     external: true
+
+networks:
+  my-net:
+    external: true

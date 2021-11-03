@@ -1,0 +1,11 @@
+FROM aspnetcore-debug:latest
+
+ENV ASPNETCORE_ENVIRONMENT Development
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+
+VOLUME /app
+
+ENTRYPOINT ["dotnet", "CNBlogs.Identity.Web.dll"]

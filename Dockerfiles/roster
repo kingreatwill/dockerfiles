@@ -1,0 +1,14 @@
+FROM hide1202/aspnetcore-node
+
+ENV ASPNETCORE_ENVIRONMENT Production
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+
+VOLUME /app
+
+HEALTHCHECK --interval=5s --timeout=20s \
+   CMD curl -fs -o /dev/null localhost || exit 1
+
+ENTRYPOINT ["dotnet", "Web.dll"]

@@ -1,0 +1,11 @@
+FROM aspnetcore-debug:2.1
+
+ENV ASPNETCORE_ENVIRONMENT Development
+
+ENV TZ=Asia/Shanghai
+
+WORKDIR /app
+
+VOLUME /app
+
+ENTRYPOINT ["dotnet", "CNBlogs.Msg.WebAPI.dll"]

@@ -1,0 +1,81 @@
+version: '3.2'
+
+services:
+
+  mongo1:
+    hostname: mongo1
+    image: mongo
+    container_name: mongo1
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongo_volumn:/data/db"
+      - "mongo_cfg_volume:/data/configdb"
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set" ]
+
+  mongo2:
+    hostname: mongo2
+    image: mongo
+    container_name: mongo2
+    restart: always
+    networks:
+      - my-net
+    ports:
+      - 27018:27018
+    volumes:
+      - "mongo2:/data/db"
+      - "mongo2_cfg:/data/configdb"
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set", "--port", "27018" ]
+    depends_on: 
+      - mongo1
+  
+  mongo3:
+    hostname: mongo3
+    image: mongo
+    container_name: mongo3
+    restart: always
+    networks: 
+      - my-net
+    ports:
+      - 27019:27019
+    volumes:
+      - "mongo3:/data/db"
+      - "mongo3_cfg:/data/configdb"
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "my-mongo-set", "--port", "27019" ]
+    depends_on: 
+      - mongo1
+      - mongo2
+  
+  mongosetup:
+    image: mongo
+    networks: 
+      - my-net
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    volumes:
+      - ./scripts:/scripts
+    restart: "no"
+    entrypoint: [ "bash", "/scripts/setup.sh" ]
+
+networks:
+  my-net:
+    external: true
+
+volumes:
+  mongo_volumn:
+    external: true
+  mongo_cfg_volume:
+    external: true
+  mongo2:
+    external: true
+  mongo2_cfg:
+    external: true
+  mongo3:
+    external: true
+  mongo3_cfg:
+    external: true

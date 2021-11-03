@@ -1,0 +1,183 @@
+ server {
+   listen 80;
+   server_name account.cnblogs.com;
+   location / {
+     proxy_pass          http://identity;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+# server {
+#   listen 80;
+#   server_name i2.cnblogs.com i3.cnblogs.com;
+#   location / {
+#     proxy_pass          http://blog-admin;
+#     proxy_set_header    Host $host;
+#     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_connect_timeout   150;
+#     proxy_send_timeout  100;
+#     proxy_read_timeout  100;
+#     proxy_buffers       4 32k;
+#     client_max_body_size    8m;
+#     client_body_buffer_size 128;
+#   }
+# }
+
+server {
+  listen 80;
+  server_name home.cnblogs.com;
+  location / {
+    proxy_pass          http://uchome;
+    proxy_set_header    Host $host;
+    proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_connect_timeout   150;
+    proxy_send_timeout  100;
+    proxy_read_timeout  100;
+    proxy_buffers       4 32k;
+    client_max_body_size    8m;
+    client_body_buffer_size 128;
+  }
+}
+
+ server {
+   listen 80;
+   server_name ucenter-webapi.cnblogs.com api.ucenter.cnblogs.com ucenter_api;
+   location / {
+     proxy_pass          http://ucenter;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+ server {
+   listen 80;
+   server_name api.job.cnblogs.com job_api;
+   location / {
+     proxy_pass          http://job;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+# server {
+#   listen 80;
+#   server_name upload.cnblogs.com;
+#   location / {
+#     proxy_pass          http://upload;
+#     proxy_set_header    Host $host;
+#     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_connect_timeout   150;
+#     proxy_send_timeout  100;
+#     proxy_read_timeout  100;
+#     proxy_buffers       4 32k;
+#     client_max_body_size    8m;
+#     client_body_buffer_size 128;
+#   }
+# }
+
+ server {
+   listen 80;
+   server_name api.edu.cnblogs.com edu_api;
+   location / {
+     proxy_pass          http://edu-api;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+# server {
+#   listen 80;
+#   server_name academy.cnblogs.com;
+#   location / {
+#     proxy_pass          http://academy;
+#     proxy_set_header    Host $host;
+#     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_connect_timeout   150;
+#     proxy_send_timeout  100;
+#     proxy_read_timeout  100;
+#     proxy_buffers       4 32k;
+#     client_max_body_size    8m;
+#     client_body_buffer_size 128;
+#   }
+# }
+
+# server {
+#   listen 80;
+#   server_name roster.cnblogs.com;
+#   location / {
+#     proxy_pass          http://roster;
+#     proxy_set_header    Host $host;
+#     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+#     proxy_connect_timeout   150;
+#     proxy_send_timeout  100;
+#     proxy_read_timeout  100;
+#     proxy_buffers       4 32k;
+#     client_max_body_size    8m;
+#     client_body_buffer_size 128;
+#   }
+# }
+
+  server {
+   listen 80;
+   server_name passport.cnblogs.com;
+   location / {
+     proxy_pass          http://passport.cnblogs.com;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+  server {
+   listen 80;
+   server_name api.msg.cnblogs.com msg_api;
+   location / {
+     proxy_pass          http://msg-api;
+     proxy_set_header    Host $host;
+     proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+     proxy_connect_timeout   150;
+     proxy_send_timeout  100;
+     proxy_read_timeout  100;
+     proxy_buffers       4 32k;
+     client_max_body_size    8m;
+     client_body_buffer_size 128;
+   }
+ }
+
+server {
+    listen 80;
+    server_name common.cnblogs.com;
+    root /www/data;
+    location / {
+    }
+}

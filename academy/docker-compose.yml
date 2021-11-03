@@ -1,0 +1,39 @@
+version: "3.2"
+services:
+  academy_api:
+    build: 
+      context: ~/Documents/CnblogsProjects/academy/src/Presentation/Cnblogs.Academy.WebAPI
+      dockerfile: Dockerfile.Debug
+    restart: always
+    container_name: academy_api
+    networks:
+      - my-net
+
+  academy_spa:
+    build:
+      context: ~/Documents/CnblogsProjects/academy/src/Presentation/Cnblogs.Academy.SPA
+      dockerfile: Dockerfile.Debug
+    restart: always
+    networks:
+      - my-net
+    depends_on:
+      - academy_api
+    container_name: academy_spa
+
+  academy_web:
+    build:
+      context: ~/Documents/CnblogsProjects/academy/src/Presentation/Cnblogs.Academy.Web
+      dockerfile: Dockerfile.Debug
+    restart: always
+    ports:
+      - "801:80"
+    container_name: academy_web
+    networks:
+      - my-net
+    depends_on:
+      - academy_api
+      - academy_spa
+
+networks:
+  my-net:
+    external: true
